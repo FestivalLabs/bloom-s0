@@ -3,6 +3,7 @@ const TCP = require('libp2p-tcp')
 const { NOISE } = require('libp2p-noise')
 const MPLEX = require('libp2p-mplex')
 const multiaddr = require('multiaddr')
+const Gossipsub = require('libp2p-gossipsub')
 
 async function main() {
   const node = await Libp2p.create({
@@ -25,8 +26,20 @@ async function main() {
     console.log(`${addr.toString()}/p2p/${node.peerId.toB58String()}`)
   })
 
-  await node.stop()
-  console.log('Stopped libp2p')
+  const topic = 'bloom-test'
+  const gossip = await startGossip(node, topic)
+  gossip.on(topic, console.log)
+  await gossip.publish(topic, new TextEncoder().encode('stickykeys here!'))
+
+  // await node.stop()
+  // console.log('Stopped libp2p')
+}
+
+async function startGossip(node, topic) {
+  const gsub = new Gossipsub(node, {emitSelf: true})
+  gsub.start()
+  gsub.subscribe(topic)
+  return gsub
 }
 
 main().then(() => {
