@@ -28,7 +28,7 @@ async function main() {
 
   const topic = 'bloom-test'
   const gossip = await startGossip(node, topic)
-  gossip.on(topic, console.log)
+  gossip.on(topic, handleGossip)
   await gossip.publish(topic, new TextEncoder().encode('stickykeys here!'))
 
   // await node.stop()
@@ -40,6 +40,23 @@ async function startGossip(node, topic) {
   gsub.start()
   gsub.subscribe(topic)
   return gsub
+}
+
+async function handleGossip(message) {
+  switch (message.typ) {
+    case "blk":
+      // verify and add it to my chain
+      break;
+    case "tx":
+      // verify and add it to my tx pool, then maybe mine
+      break;
+    default:
+      break;
+  }
+}
+
+async function startMining() {
+
 }
 
 main().then(() => {
