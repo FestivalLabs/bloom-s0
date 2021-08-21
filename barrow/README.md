@@ -4,6 +4,8 @@ Barrow is a package to experiment with cryptographic primitives like hashing, ke
 
 ## Usage
 
+Use Node.js 14
+
 ```
 git clone
 cd barrow
@@ -12,7 +14,7 @@ npm run start
 ```
 
 ## Maintainers
-@v-stickykeys
+[@v-stickykeys](@v-stickykeys)
 
 ## License
 
