@@ -14,7 +14,7 @@ npm run start
 ```
 
 ## Maintainers
-[@v-stickykeys](@v-stickykeys)
+[@v-stickykeys](https://github.com/v-stickykeys)
 
 ## License
 
