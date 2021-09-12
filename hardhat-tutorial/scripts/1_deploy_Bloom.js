@@ -14,12 +14,19 @@ async function main() {
   // await hre.run('compile');
 
   // We get the contract to deploy
-  const Greeter = await hre.ethers.getContractFactory("Greeter");
-  const greeter = await Greeter.deploy("Hello, Hardhat!");
+  const Bloom = await hre.ethers.getContractFactory("contracts/Bloom.sol:Bloom");
 
-  await greeter.deployed();
+  const treasurer = "0xE21596Fbb266EA507B17b56682FBEE0ab8260cA6";
+  const fee = ethers.utils.parseEther("1");
+  const uri = "https://tokens.fstvl.io/bloom-season-{id}.json";
+  const name = "Bloom by Festival Labs";
+  const symbol = "BLOOM";
 
-  console.log("Greeter deployed to:", greeter.address);
+  const bloom1155 = await Bloom.deploy(treasurer, fee, uri, name, symbol);
+
+  await bloom1155.deployed();
+
+  console.log("Bloom deployed to:", bloom1155.address);
 }
 
 // We recommend this pattern to be able to use async/await everywhere
