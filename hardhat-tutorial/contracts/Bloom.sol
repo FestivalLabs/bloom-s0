@@ -47,14 +47,9 @@ contract Bloom is ERC1155PresetMinter {
         _fee = nextFee;
     }
 
-    function purchase(
-        address to,
-        uint256 id,
-        uint256 amount,
-        bytes memory data
-    ) public payable {
+    function purchase(address to, uint256 id) public payable {
         require(msg.value >= _fee, "Bloom: 402");
         _treasurer.transfer(msg.value);
-        _mint(to, id, amount, data);
+        _mint(to, id, 1, "");
     }
 }
