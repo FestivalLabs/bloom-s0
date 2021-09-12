@@ -2,9 +2,9 @@
 
 pragma solidity ^0.8.0;
 
-import "./@openzeppelin/contracts/token/ERC1155/presets/ERC1155PresetMinterPauser.sol";
+import "./@openzeppelin/contracts/token/ERC1155/presets/ERC1155PresetMinter.sol";
 
-contract Bloom is ERC1155PresetMinterPauser {
+contract Bloom is ERC1155PresetMinter {
     address payable private _treasurer;
     uint256 private _fee;
     string private _name;
@@ -16,7 +16,7 @@ contract Bloom is ERC1155PresetMinterPauser {
         string memory uri,
         string memory name_,
         string memory symbol_
-    ) ERC1155PresetMinterPauser(uri) {
+    ) ERC1155PresetMinter(uri) {
         _treasurer = treasurer_;
         _fee = fee_;
         _name = name_;
@@ -39,13 +39,11 @@ contract Bloom is ERC1155PresetMinterPauser {
         return _fee;
     }
 
-    function setTreasurer(address payable nextTreasurer) public {
-        require(hasRole(MINTER_ROLE, _msgSender()), "Bloom: 403");
+    function setTreasurer(address payable nextTreasurer) public onlyAuthorized {
         _treasurer = nextTreasurer;
     }
 
-    function setFee(uint256 nextFee) public {
-        require(hasRole(MINTER_ROLE, _msgSender()), "Bloom: 403");
+    function setFee(uint256 nextFee) public onlyAuthorized {
         _fee = nextFee;
     }
 
